@@ -1,0 +1,107 @@
+# PHP
+# Test and package your PHP project.
+# Add steps that run tests, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/php
+
+variables:
+  phpVersion: 7.4
+  client: as-sports-demo
+
+pool:
+  vmImage: 'ubuntu-18.04'
+
+steps:
+  - script: |
+      sudo update-alternatives --set php /usr/bin/php$(phpVersion)
+      sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
+      sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
+      sudo update-alternatives --set php-cgi /usr/bin/php-cgi$(phpVersion)
+      sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion)
+      php -version
+    displayName: 'Use PHP version $(phpVersion)'
+  
+  # - task: InstallSSHKey@0
+  #   inputs:
+  #     knownHostsEntry: 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC7Hr1oTWqNqOlzGJOfGJ4NakVyIzf1rXYd4d7wo6jBlkLvCA4odBlL0mDUyZ0/QUfTTqeu+tm22gOsv+VrVTMk6vwRU75gY/y9ut5Mb3bR5BV58dKXyq9A9UeB5Cakehn5Zgm6x1mKoVyf+FFn26iYqXJRgzIZZcZ5V6hrE0Qg39kZm4az48o0AUbf6Sp4SLdvnuMa2sVNwHBboS7EJkm57XQPVU3/QpyNLHbWDdzwtrlS+ez30S3AdYhLKEOxAG8weOnyrtLJAUen9mTkol8oII1edf7mWWbWVf0nBmly21+nZcmCTISQBtdcyPaEno7fFQMDD26/s0lfKob4Kw8H'
+  #     sshPublicKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDyCtFZyaB+g5SoJNso7WKA3mi8XbTvhYRcY9ehOexxcJm4p/BoFNnr1PQ1k7M39erpgw4Qa+aY1NRtTH/L46xhGmG4XSm8tqitGA5XIDX5YOhc4NXF2qTJnkD/V1lwBnckA/d6oHfqcBWu1FP4NO8ks/+shmLtTi8lnzUt5zEk+/dCVengV9/Sayibt9bNmcrJ3rHYVFCqfZ8Pc6dEsx6qOojxdW9GXx47iLLBrJ6j1rBMBujY2Bf4f/g8VgeWf3Zg46ukU/4Y84RBX9ZcoY4lUTcUmDApTjjMJIqkxtPkXyU7E53NuPsKKrGGl2N2nRFpT69Ps2pYkNVPpxwL7Xyp'
+  #     sshKeySecureFile: 'azure-git'
+  
+  # - task: InstallSSHKey@0
+  #   inputs:
+  #     knownHostsEntry: 'ssh.dev.azure.com ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC7Hr1oTWqNqOlzGJOfGJ4NakVyIzf1rXYd4d7wo6jBlkLvCA4odBlL0mDUyZ0/QUfTTqeu+tm22gOsv+VrVTMk6vwRU75gY/y9ut5Mb3bR5BV58dKXyq9A9UeB5Cakehn5Zgm6x1mKoVyf+FFn26iYqXJRgzIZZcZ5V6hrE0Qg39kZm4az48o0AUbf6Sp4SLdvnuMa2sVNwHBboS7EJkm57XQPVU3/QpyNLHbWDdzwtrlS+ez30S3AdYhLKEOxAG8weOnyrtLJAUen9mTkol8oII1edf7mWWbWVf0nBmly21+nZcmCTISQBtdcyPaEno7fFQMDD26/s0lfKob4Kw8H'
+  #     sshPublicKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5+VGLYf8yfuPDEjNUshulcE51dtGgaFoTZDwOfAarIg+xunpEj5TvikOu3UaTFF2Ynd3PRptrojA89Yjvqb8aBv3JOWcyEolDyCHPABmnUMyZegOBl8r3R+5RhiLjUSXud6oBF/rbTCZ5KjlkaSS5G/Cs5W82anIWDrJP9viJUlMC++JXDBHOWVGnMTnd5pjM4ZmKcj0uJ04nuf7WPn/DWT/hxJawTExSI2TAMvk6yFlF97EXYCU4UqP7evxtBJ6b5FzwAjmXeqKae+VhRs9r/EhlDyBD5o9eBhrGRVoPApn+v9om5lx+nrIZsUTdsolgF50VjCrJrqoIfLN2HZar'
+  #     sshKeySecureFile: 'azure-azure-freestone-backend'
+  
+  - task: InstallSSHKey@0
+    inputs:
+      knownHostsEntry: 'dev.enclos.ca ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDvooGY9iTO2NTwUzAgd7jd1Po9MGMd5tFwpkeTBgcNL8VzjkLrq++d+NoMiu/OUIMgImdvzLLs63xGXmECIQOUc5dMP63DqDpXON1E7bpje9IlWYZJMKYg7t+e09QWfc92WgA2o4TijNvaMWxXu5BGjGPc8B8cJpFI3ST3Y4o4uOYb4Y5iCyuCNNPcy3B2dMQajbnfG+k9tLJQpEAebXuWe9unyZTWHxJcP3WtcYkRgxjWbpppQrDYpGFSlJ+BO1Q2VHs1LHHgQ+E7/304CysABTRV8qDUhWI6kVRz7Tyzf0tcteIifp8ghfUFt4Q9DD305234DKX4ChQekzLJ3CC3'
+      sshPublicKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDYQPmd8imnbGD1lgbHeyRli7pm9+ZQt6zRg8ZLFWA61Nnw6BIyS/LUu4lcdIyiinlskuFvQI3cb0nhX1XdsLIt1jrQ/RBihqHbNC0TfHoep7/885/6n7Nf/g4rEeQy9VWeCrRQOyXoUhIwd2OglonI3PZcUP7IjXyLNHk1YvdjdKD8Jxa8ZjmQlSAUvZtJrqKebrf+80EarD18xlHtrM9HIDWW2w42EMN8Wqgag4D1OkMGwCCDCQDBVwh9I9SGtqWSb7vpLDKsFoul9RgV4qh8Rmi42gZ8eIP6swn8DipwjEEn6s47TDGjbWFpATetb4uhB9bJ1tqKzM9TyYFvLMpf5qPYMc7QNMhISUniGNlg8fvdeFNQpd9fnfLA5KsWd2arSnwQximaS21bvkpTlmSlgV1HuggWZD/6tIyAeSE7hUDaEpjmKTAgbKpnEkEBs00muUmm3dCaz3jZdntp2gW0rOtz3X/MytbInsoInPcXsz3FXBJDMQL6OaPzKvAJ8jtVGLHaKStsmsdLSEwLnKkroFK3kIMHemovj3U3pYACMGyoYTU09H3nYB7FGKeY64YCRyMX3udMxumMFSDEr2uvZzUojrdfg9/No2YQHqTcOygUxPSHi9cUHgWmKILmdvhUSEcAGW/1uJ3e/ZM/CaU7/vZHQlle1ygLwN94xTd1LQ== bobette@la-grange.ca'
+      sshKeySecureFile: 'ec2.pem'
+  
+  # Azure DevOps doesn't handle multiple knownHosts. The latest overwrites the previous. We have to add them manually.
+  - script: |
+      ssh-keyscan -t rsa ssh.dev.azure.com >> ~/.ssh/known_hosts
+      cat ~/.ssh/known_hosts
+    displayName: 'Add ssh.dev.azure.com to known_hosts'
+  
+  # Azure DevOps doesn't handle multiple knownHosts. The latest overwrites the previous. We have to add them manually.
+  - script: |
+      ssh-keyscan -t rsa bitbucket.org >> ~/.ssh/known_hosts
+      cat ~/.ssh/known_hosts
+    displayName: 'Add bitbucket.org to known_hosts'
+  
+  # Azure DevOps doesn't handle multiple knownHosts. The latest overwrites the previous. We have to add them manually.
+  - script: |
+      ssh-keyscan -t rsa dev.enclos.ca >> ~/.ssh/known_hosts
+      cat ~/.ssh/known_hosts
+    displayName: 'Add dev.enclos.ca to known_hosts'
+  
+  - script: |
+      ssh ubuntu@dev.enclos.ca sudo mkdir --parents /var/medias/${client}
+      ssh ubuntu@dev.enclos.ca sudo chown ubuntu:www-data -R /var/medias/${client}
+      ssh ubuntu@dev.enclos.ca sudo chmod 775 -R /var/medias/${client}
+      ssh ubuntu@dev.enclos.ca sudo mkdir --parents /var/www/$(client).$(Build.SourceBranchName).dev.enclos.ca/
+      ssh ubuntu@dev.enclos.ca sudo chown ubuntu:www-data /var/www/$(client).$(Build.SourceBranchName).dev.enclos.ca/
+      ssh ubuntu@dev.enclos.ca sudo chmod 755 /var/www/$(client).$(Build.SourceBranchName).dev.enclos.ca/
+    displayName: 'Setup'
+
+  - script: |
+      ssh ubuntu@dev.enclos.ca mkdir --parents /var/www/$(client).$(Build.SourceBranchName).dev.enclos.ca/public_html/uploads
+      rsync --exclude 'img/*prc' --progress --recursive ubuntu@dev.enclos.ca:/var/www/$(client).$(Build.SourceBranchName).dev.enclos.ca/public_html/uploads/ ./dist/uploads
+    displayName: 'Copy /uploads from dev.enclos.ca'
+  
+  # - script:
+  #     composer install --no-interaction --prefer-dist
+  #   workingDirectory: ./dist
+  #   displayName: 'composer install'
+  
+  - script:
+      npm run build
+    workingDirectory: ./
+    displayName: 'Run npm run build'
+  
+  - script: |
+      find . -type d | grep .git | xargs rm -rf
+    displayName: 'Delete .git folders to reduce package size.'
+  
+  # - script: |
+  #     ssh ubuntu@dev.enclos.ca "sudo mysqldump $(client)_$(Build.SourceBranchName)_dev" | sed -e 's/DEFINER[ ]*=[ ]*[^*]*\*/\*/' > $(Build.ArtifactStagingDirectory)/dump.sql
+  #   displayName: 'Export database.'
+  
+  - script: |
+      cp -R ./config $(Build.ArtifactStagingDirectory)/config
+    displayName: 'Copy config.'
+  
+  - task: ArchiveFiles@2
+    inputs:
+      rootFolderOrFile: './dist'
+      includeRootFolder: false
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/build.zip'
+      replaceExistingArchive: true
+  
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'

@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Private Login"
+AuthUserFile /var/www/xrsportdemo.develop.dev.enclos.ca/public_html/.htpasswd
+Require valid-user

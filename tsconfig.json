@@ -1,0 +1,21 @@
+{
+	"compilerOptions": {
+		"forceConsistentCasingInFileNames": true,
+		"outDir": "./dist/",
+		"module": "es6",
+		"target": "es2019",
+		"jsx": "react",
+		"allowJs": true,
+		"moduleResolution": "node",
+		"allowSyntheticDefaultImports": true,
+		"removeComments": true,
+		"strict": false,
+		"importHelpers": true,
+		"sourceMap": true,
+		"strictNullChecks": false,
+		"resolveJsonModule": true,
+	},
+	"exclude": [
+		"_working",
+	]
+}
